@@ -1,42 +1,46 @@
 import json
 import ldap3
-import sys
+import argparse
+import os
 
-# Configuration de l'analyzer (peut être personnalisée via Cortex)
-LDAP_SERVER = "ldap://10.0.2.15:389"
-BIND_DN = "cn=admin,dc=echelon,dc=local"
-BIND_PASSWORD = "LDAP_password"
-BASE_DN = "ou=computers,dc=echelon,dc=local"
+# GitHub Repository URL
+GITHUB_REPO = "https://github.com/0lgvd/Cortex-LdapAnalyzer"
+
+# Parse arguments passed by Cortex
+parser = argparse.ArgumentParser()
+parser.add_argument('--LDAP_address', required=True, help='LDAP server address (e.g., ldap://10.0.2.15:389)')
+parser.add_argument('--LDAP_bind_dn', required=True, help='LDAP admin DN (e.g., cn=admin,dc=echelon,dc=local)')
+parser.add_argument('--LDAP_password_file', required=True, help='Path to the file containing the LDAP password')
+parser.add_argument('--LDAP_base_dn', required=True, help='LDAP base DN (e.g., ou=computers,dc=echelon,dc=local)')
+parser.add_argument('--LDAP_search_filter', required=False, default='(objectClass=inetOrgPerson)', help='LDAP search filter')
+parser.add_argument('--LDAP_attributes', required=False, default='cn,uid,description,modifyTimestamp,entryUUID', help='Comma-separated list of LDAP attributes to retrieve')
+args = parser.parse_args()
+
+# Read LDAP password from the specified file
+try:
+    with open(args.LDAP_password_file, 'r') as pw_file:
+        BIND_PASSWORD = pw_file.read().strip()
+except Exception as e:
+    print(json.dumps({"success": False, "error": f"Failed to read password file: {str(e)}", "repository": GITHUB_REPO}))
+    exit(1)
 
 def query_ldap():
     try:
-        # Connexion au serveur LDAP
-        server = ldap3.Server(LDAP_SERVER, get_info=ldap3.ALL)
-        conn = ldap3.Connection(server, BIND_DN, BIND_PASSWORD, auto_bind=True)
+        server = ldap3.Server(args.LDAP_address, get_info=ldap3.ALL)
+        conn = ldap3.Connection(server, args.LDAP_bind_dn, BIND_PASSWORD, auto_bind=True)
         
-        # Filtrer les machines récemment modifiées
-        search_filter = "(objectClass=inetOrgPerson)"
-        search_attributes = ["cn", "uid", "description", "modifyTimestamp", "entryUUID"]
+        search_attributes = args.LDAP_attributes.split(',')
+        conn.search(args.LDAP_base_dn, args.LDAP_search_filter, attributes=search_attributes)
         
-        conn.search(BASE_DN, search_filter, attributes=search_attributes)
-        
-        # Extraction des résultats
         results = []
         for entry in conn.entries:
-            results.append({
-                "cn": entry.cn.value,
-                "uid": entry.uid.value if "uid" in entry else None,
-                "description": entry.description.value if "description" in entry else None,
-                "modifyTimestamp": entry.modifyTimestamp.value if "modifyTimestamp" in entry else None,
-                "entryUUID": entry.entryUUID.value if "entryUUID" in entry else None
-            })
-
-        # Affichage du JSON pour Cortex
-        print(json.dumps(results, indent=4))
-    
+            entry_data = {attr: getattr(entry, attr).value if hasattr(entry, attr) else None for attr in search_attributes}
+            results.append(entry_data)
+        
+        print(json.dumps({"success": True, "data": results, "repository": GITHUB_REPO}, indent=4))
     except Exception as e:
-        print(json.dumps({"error": str(e)}))
-        sys.exit(1)
+        print(json.dumps({"success": False, "error": str(e), "repository": GITHUB_REPO}))
+        exit(1)
 
 if __name__ == "__main__":
     query_ldap()

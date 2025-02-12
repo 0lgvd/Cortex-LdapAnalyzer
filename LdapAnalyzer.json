@@ -1,49 +1,58 @@
 {
-  "script": {
-    "description": "Extraction des informations LDAP pour un analyzer Cortex, incluant les machines et leur activité récente.",
-    "language": "Python",
-    "dependencies": ["ldap3", "json", "os"],
-    "steps": [
-      {
-        "step": "Connexion au serveur LDAP",
-        "details": {
-          "server": "ldap://10.0.2.15:389",
-          "port": 389,
-          "bind_dn": "cn=admin,dc=echelon,dc=local",
-          "bind_password": "Chargé depuis le fichier LDAP_password."
-        }
-      },
-      {
-        "step": "Lecture du mot de passe depuis LDAP_password",
-        "details": {
-          "file": "LDAP_password",
-          "method": "Lecture avec json.load() dans LdapAnalyzer.py"
-        }
-      },
-      {
-        "step": "Recherche des machines avec informations opérationnelles",
-        "details": {
-          "search_base": "ou=computers,dc=echelon,dc=local",
-          "search_filter": "(objectClass=inetOrgPerson)",
-          "attributes": ["cn", "uid", "description", "modifyTimestamp", "entryUUID"]
-        }
-      },
-      {
-        "step": "Filtrage des machines récemment modifiées",
-        "details": {
-          "filter": "Machines modifiées après une certaine date",
-          "attribute": "modifyTimestamp",
-          "example_query": "(modifyTimestamp>=20240201000000Z)"
-        }
-      },
-      {
-        "step": "Extraction des résultats",
-        "details": {
-          "format": "JSON",
-          "output_file": "ldap_recent_computers.json"
-        }
-      }
-    ]
-  }
+  "name": "LdapAnalyzer",
+  "version": "1.0",
+  "author": "0lgvd",
+  "url": "https://github.com/0lgvd/Cortex-LdapAnalyzer",
+  "license": "AGPL-V3",
+  "description": "Analyze LDAP to find recent machine modifications",
+  "dataTypeList": ["fqdn"],
+  "command": "python3 LdapAnalyzer.py",
+  "baseConfig": "LdapAnalyzer",
+  "configurationItems": [
+    {
+      "name": "LDAP_address",
+      "description": "LDAP server address (e.g., ldap://10.0.2.15:389)",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "LDAP_bind_dn",
+      "description": "LDAP admin DN (e.g., cn=admin,dc=echelon,dc=local)",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "LDAP_password_file",
+      "description": "Path to the file containing the LDAP password",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "LDAP_base_dn",
+      "description": "LDAP base DN (e.g., ou=computers,dc=echelon,dc=local)",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "LDAP_search_filter",
+      "description": "LDAP search filter",
+      "type": "string",
+      "multi": false,
+      "required": false,
+      "default": "(objectClass=inetOrgPerson)"
+    },
+    {
+      "name": "LDAP_attributes",
+      "description": "Comma-separated list of LDAP attributes to retrieve",
+      "type": "string",
+      "multi": false,
+      "required": false,
+      "default": "cn,uid,description,modifyTimestamp,entryUUID"
+    }
+  ]
 }
 
