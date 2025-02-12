@@ -2,6 +2,8 @@ import json
 import ldap3
 import argparse
 import os
+import datetime
+import traceback
 
 # GitHub Repository URL
 GITHUB_REPO = "https://github.com/0lgvd/Cortex-LdapAnalyzer"
@@ -34,12 +36,27 @@ def query_ldap():
         
         results = []
         for entry in conn.entries:
-            entry_data = {attr: getattr(entry, attr).value if hasattr(entry, attr) else None for attr in search_attributes}
+            entry_data = {}
+            for attr in search_attributes:
+                if hasattr(entry, attr):
+                    value = getattr(entry, attr).value
+                    # Vérifier si la valeur est un datetime et la convertir en string
+                    if isinstance(value, (datetime.datetime, datetime.date)):
+                        entry_data[attr] = value.isoformat()  # Convertit en format compatible JSON
+                    else:
+                        entry_data[attr] = value
+                else:
+                    entry_data[attr] = None
             results.append(entry_data)
         
         print(json.dumps({"success": True, "data": results, "repository": GITHUB_REPO}, indent=4))
     except Exception as e:
-        print(json.dumps({"success": False, "error": str(e), "repository": GITHUB_REPO}))
+        print(json.dumps({
+            "success": False,
+            "error": str(e),
+            "trace": traceback.format_exc(),
+            "repository": GITHUB_REPO
+        }, indent=4))
         exit(1)
 
 if __name__ == "__main__":
