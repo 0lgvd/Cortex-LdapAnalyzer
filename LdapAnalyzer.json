@@ -6,7 +6,7 @@
   "license": "AGPL-V3",
   "description": "Analyze LDAP to find recent machine modifications",
   "dataTypeList": ["fqdn"],
-  "command": "python3 /opt/cortex_analyzers/LdapAnalyzer/LdapAnalyzer.py",
+  "command": "/usr/bin/python3 /opt/cortex_analyzers/LdapAnalyzer/LdapAnalyzer.py",
   "baseConfig": "LdapAnalyzer",
   "configurationItems": [
     {
