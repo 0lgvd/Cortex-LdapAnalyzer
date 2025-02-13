@@ -6,6 +6,8 @@ import argparse
 import os
 import datetime
 import traceback
+import sys
+print("Arguments reçus par Cortex:", sys.argv)
 
 # GitHub Repository URL
 GITHUB_REPO = "https://github.com/0lgvd/Cortex-LdapAnalyzer"
