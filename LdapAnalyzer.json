@@ -12,7 +12,7 @@
     "service": ""
   },
   "dataTypeList": ["fqdn"],
-  "command": "python3 LdapAnalyzer.py --LDAP_address ${LDAP_address} --LDAP_bind_dn ${LDAP_bind_dn} --LDAP_password_file ${LDAP_password_file} --LDAP_base_dn ${LDAP_base_dn}",
+  "command": "/opt/cortex_analyzers/LdapAnalyser/LdapAnalyzer.py --LDAP_address {LDAP_address} --LDAP_bind_dn {LDAP_bind_dn} --LDAP_password_file {LDAP_password_file} --LDAP_base_dn {LDAP_base_dn}",
 
   "configurationItems": [
     {
