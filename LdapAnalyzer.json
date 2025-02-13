@@ -12,7 +12,7 @@
     "service": ""
   },
   "dataTypeList": ["fqdn"],
-  "command": "LdapAnalyser/LdapAnalyzer.py",
+  "command": "/usr/bin/python3 /opt/cortex_analyzers/LdapAnalyzer/LdapAnalyzer.py",
 
   "configurationItems": [
     {
