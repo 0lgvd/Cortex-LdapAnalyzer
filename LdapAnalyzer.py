@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+#!/usr/bin/env python3
+
+>>>>>>> 6988699 (Ajout de requirements.txt et mise à jour des fichiers)
 import json
 import ldap3
 import argparse
