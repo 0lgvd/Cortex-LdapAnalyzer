@@ -30,10 +30,11 @@
     },
     {
       "name": "LDAP_password_file",
-      "description": "/opt/cortex_analyzers/LdapAnalyzer/LDAP_password",
+      "description": "Path to the file containing the LDAP password",
       "type": "string",
       "multi": false,
       "required": true
+      "default": "/opt/cortex_analyzers/LdapAnalyzer/LDAP_password"
     },
     {
       "name": "LDAP_base_dn",
