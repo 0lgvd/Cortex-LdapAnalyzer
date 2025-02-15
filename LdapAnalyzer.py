@@ -5,7 +5,6 @@ import ldap3
 import argparse
 import os
 import sys
-import datetime
 import traceback
 
 # GitHub Repository URL
@@ -18,7 +17,7 @@ parser.add_argument('--LDAP_bind_dn', required=True, help='LDAP admin DN (e.g., 
 parser.add_argument('--LDAP_password_file', required=True, help='Path to the file containing the LDAP password')
 parser.add_argument('--LDAP_base_dn', required=True, help='LDAP base DN (e.g., dc=echelon,dc=local)')
 parser.add_argument('--LDAP_search_filter', required=False, default='(objectClass=inetOrgPerson)', help='LDAP search filter')
-parser.add_argument('--LDAP_attributes', required=False, default='cn,uid,description,lastLogin,logonTime', help='Comma-separated list of LDAP attributes to retrieve')
+parser.add_argument('--LDAP_attributes', required=False, default='cn,uid,description,mail', help='Comma-separated list of LDAP attributes to retrieve')
 args = parser.parse_args()
 
 # Read LDAP password from the specified file
