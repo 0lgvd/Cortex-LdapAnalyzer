@@ -6,6 +6,7 @@ import argparse
 import os
 import sys
 import traceback
+import datetime  # Ajoutez cette ligne pour importer le module datetime
 
 # GitHub Repository URL
 GITHUB_REPO = "https://github.com/0lgvd/Cortex-LdapAnalyzer"
