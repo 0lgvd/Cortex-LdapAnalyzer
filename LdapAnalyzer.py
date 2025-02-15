@@ -6,10 +6,14 @@ import argparse
 import os
 import sys
 import traceback
-import datetime  # Ajoutez cette ligne pour importer le module datetime
+import datetime
+import logging
 
 # GitHub Repository URL
 GITHUB_REPO = "https://github.com/0lgvd/Cortex-LdapAnalyzer"
+
+# Configurer le logging
+logging.basicConfig(level=logging.DEBUG, filename='ldap_analyzer.log', filemode='w', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # Parse arguments passed by Cortex
 parser = argparse.ArgumentParser()
@@ -21,11 +25,20 @@ parser.add_argument('--LDAP_search_filter', required=False, default='(objectClas
 parser.add_argument('--LDAP_attributes', required=False, default='cn,uid,description,mail', help='Comma-separated list of LDAP attributes to retrieve')
 args = parser.parse_args()
 
+# Log les arguments reçus
+logging.debug(f"LDAP_address: {args.LDAP_address}")
+logging.debug(f"LDAP_bind_dn: {args.LDAP_bind_dn}")
+logging.debug(f"LDAP_password_file: {args.LDAP_password_file}")
+logging.debug(f"LDAP_base_dn: {args.LDAP_base_dn}")
+logging.debug(f"LDAP_search_filter: {args.LDAP_search_filter}")
+logging.debug(f"LDAP_attributes: {args.LDAP_attributes}")
+
 # Read LDAP password from the specified file
 try:
     with open(args.LDAP_password_file, 'r') as pw_file:
         BIND_PASSWORD = pw_file.read().strip()
 except Exception as e:
+    logging.error(f"Failed to read password file: {str(e)}")
     print(json.dumps({"success": False, "error": f"Failed to read password file: {str(e)}", "repository": GITHUB_REPO}))
     exit(1)
 
@@ -54,6 +67,7 @@ def query_ldap():
 
         print(json.dumps({"success": True, "data": results, "repository": GITHUB_REPO}, indent=4))
     except Exception as e:
+        logging.error(f"Error querying LDAP: {str(e)}")
         print(json.dumps({
             "success": False,
             "error": str(e),
