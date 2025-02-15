@@ -1,0 +1,64 @@
+{
+  "name": "LdapAnalyzer",
+  "description": "Analyze LDAP to find recent machine modifications",
+  "version": "1.0",
+  "author": "0lgvd",
+  "url": "https://github.com/0lgvd/Cortex-LdapAnalyzer",
+  "license": "AGPL-V3",
+  "baseConfig": "LdapAnalyzer",
+  "config": {
+    "check_tlp": false,
+    "max_tlp": 3,
+    "service": ""
+  },
+  "dataTypeList": ["fqdn"],
+  "command": "/usr/bin/python3 /opt/cortex_analyzers/LdapAnalyzer/LdapAnalyzer.py",
+  "configurationItems": [
+    {
+      "name": "LDAP_address",
+      "description": "LDAP server address (e.g., ldap://10.0.2.15:389)",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "LDAP_bind_dn",
+      "description": "LDAP admin DN (e.g., cn=admin,dc=echelon,dc=local)",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "LDAP_password_file",
+      "description": "Path to the file containing the LDAP password",
+      "type": "string",
+      "multi": false,
+      "required": true,
+      "default": "/opt/cortex_analyzers/LdapAnalyzer/LDAP_password"
+    },
+    {
+      "name": "LDAP_base_dn",
+      "description": "LDAP base DN (e.g., ou=computers,dc=echelon,dc=local)",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "LDAP_search_filter",
+      "description": "LDAP search filter",
+      "type": "string",
+      "multi": false,
+      "required": false,
+      "default": "(objectClass=inetOrgPerson)"
+    },
+    {
+      "name": "LDAP_attributes",
+      "description": "Comma-separated list of LDAP attributes to retrieve",
+      "type": "string",
+      "multi": false,
+      "required": false,
+      "default": "cn,uid,description,modifyTimestamp,entryUUID"
+    }
+  ]
+}
+
