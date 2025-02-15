@@ -13,6 +13,10 @@
   },
   "dataTypeList": ["fqdn"],
   "command": "/usr/bin/python3 /opt/cortex_analyzers/LdapAnalyzer/LdapAnalyzer.py",
+<<<<<<< HEAD
+=======
+
+>>>>>>> 66a3adebddbc087e303131e809bc880139209a8b
   "configurationItems": [
     {
       "name": "LDAP_address",
