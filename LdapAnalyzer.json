@@ -12,7 +12,7 @@
     "service": ""
   },
   "dataTypeList": ["fqdn"],
-  "command": "/usr/bin/python3 /opt/cortex_analyzers/LdapAnalyzer/LdapAnalyzer.py",
+  "command": "/opt/cortex_analyzers/LdapAnalyzer/LdapAnalyzer.py",
   "configurationItems": [
     {
       "name": "LDAP_address",
