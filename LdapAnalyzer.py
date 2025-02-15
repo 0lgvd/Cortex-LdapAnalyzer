@@ -13,10 +13,10 @@ GITHUB_REPO = "https://github.com/0lgvd/Cortex-LdapAnalyzer"
 
 # Parse arguments passed by Cortex
 parser = argparse.ArgumentParser()
-parser.add_argument('--LDAP_address', required=True, help='LDAP server address (e.g., ldap://10.0.2.15:389)')
-parser.add_argument('--LDAP_bind_dn', required=True, help='LDAP admin DN (e.g., cn=admin,dc=echelon,dc=local)')
-parser.add_argument('--LDAP_password_file', required=True, help='Path to the file containing the LDAP password')
-parser.add_argument('--LDAP_base_dn', required=True, help='LDAP base DN (e.g., dc=echelon,dc=local)')
+parser.add_argument('--LDAP_address', required=True, help='LDAP server address')
+parser.add_argument('--LDAP_bind_dn', required=True, help='LDAP admin DN')
+parser.add_argument('--LDAP_password_file', required=True, help='Path to the LDAP password file')
+parser.add_argument('--LDAP_base_dn', required=True, help='LDAP base DN')
 parser.add_argument('--LDAP_search_filter', required=False, default='(objectClass=inetOrgPerson)', help='LDAP search filter')
 parser.add_argument('--LDAP_attributes', required=False, default='cn,uid,description,mail', help='Comma-separated list of LDAP attributes to retrieve')
 args = parser.parse_args()
