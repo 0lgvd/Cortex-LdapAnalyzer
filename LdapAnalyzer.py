@@ -13,7 +13,7 @@ import logging
 GITHUB_REPO = "https://github.com/0lgvd/Cortex-LdapAnalyzer"
 
 # Configurer le logging
-logging.basicConfig(level=logging.DEBUG, filename='ldap_analyzer.log', filemode='w', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG, filename='/tmp/ldap_analyzer.log', filemode='w', format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # Parse arguments passed by Cortex
 parser = argparse.ArgumentParser()
