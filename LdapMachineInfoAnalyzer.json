@@ -1,0 +1,63 @@
+{
+  "name": "LdapMachineInfoAnalyzer",
+  "version": "1.0",
+  "author": "0lgvd",
+  "url": "https://github.com/0lgvd/Cortex-LdapAnalyzer",
+  "license": "AGPL-V3",
+  "description": "Analyzer to retrieve information about a machine by its name",
+  "dataTypeList": ["hostname"],
+  "command": "/opt/cortex_analyzers/LdapMachineInfoAnalyzer/LdapMachineInfoAnalyzer.py",
+  "baseConfig": "LdapMachineInfoAnalyzer",
+  "configurationItems": [
+    {
+      "name": "LDAP_address",
+      "description": "Should contain the protocol. Eg: ldaps://myldap.myorg.com",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "LDAP_port",
+      "description": "Should contain the ldap port. Eg: 389 or 636",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "LDAP_username",
+      "description": "Username of the account that will be used to bind to LDAP server. The Account should have permissions to read ldap objects and attributes.",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "LDAP_password",
+      "description": "Password of the account used to bind to LDAP server.",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "base_DN",
+      "description": "The base DN to use in your LDAP. Eg: dc=myorg,dc=com",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "cn_search_field",
+      "description": "Specify here the field to use when searching by hostname. Eg: cn",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "attributes",
+      "description": "Specify here the attributes you want to harvest. Eg: description, uid",
+      "type": "string",
+      "multi": true,
+      "required": true
+    }
+  ]
+}
+
