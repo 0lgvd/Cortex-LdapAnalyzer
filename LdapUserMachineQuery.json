@@ -1,0 +1,71 @@
+{
+  "name": "LdapUserMachineQuery",
+  "version": "1.0",
+  "author": "Your Name",
+  "url": "https://github.com/your-repo/LdapUserMachineQuery",
+  "license": "AGPL-V3",
+  "description": "Query LDAP for user information connected to a machine.",
+  "dataTypeList": ["uid"],
+  "command": "/opt/cortex_analyzers/LdapUserMachineQuery/LdapUserMachineQuery.py",
+  "baseConfig": "LdapUserMachineQuery",
+  "config": {
+    "service": "query"
+  },
+  "configurationItems": [
+    {
+      "name": "LDAP_address",
+      "description": "LDAP server address",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "LDAP_port",
+      "description": "LDAP server port",
+      "type": "number",
+      "multi": false,
+      "required": true,
+      "defaultValue": 389
+    },
+    {
+      "name": "LDAP_username",
+      "description": "LDAP admin username",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "LDAP_password",
+      "description": "LDAP admin password",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "base_DN",
+      "description": "LDAP base DN",
+      "type": "string",
+      "multi": false,
+      "required": true
+    },
+    {
+      "name": "search_filter",
+      "description": "LDAP search filter",
+      "type": "string",
+      "multi": false,
+      "required": false,
+      "defaultValue": "(objectClass=person)"
+    },
+    {
+      "name": "attributes",
+      "description": "Comma-separated list of LDAP attributes to retrieve",
+      "type": "string",
+      "multi": false,
+      "required": true,
+      "defaultValue": "cn,uid,description,lastLogin,logonTime"
+    }
+  ],
+  "registration_required": true,
+  "subscription_required": false
+}
+
